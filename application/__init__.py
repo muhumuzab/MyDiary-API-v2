@@ -48,7 +48,8 @@ def create_app(config, database=None):
     api.add_namespace(rides, path='/api/v1')
     api.add_namespace(user, path='/api/v1')
 
-
+    from application.docs.views import docs
+    app.register_blueprint(docs)
 
 
 
