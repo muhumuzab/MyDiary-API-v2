@@ -19,3 +19,9 @@ except ImportError:
     from urlparse import urlparse, parse_qs
 
 api = Namespace('Users', Description='User operations')
+
+def validate_email(email):
+    match = re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]*\.*[com|org|edu]{3}$)",email)
+    if match is not None:
+        return True
+    return False
