@@ -51,6 +51,10 @@ def create_app(config, database=None):
     from application.docs.views import docs
     app.register_blueprint(docs)
 
+    """ create database tables """
+    db.create_all()
+    return app
+
 
 
 
