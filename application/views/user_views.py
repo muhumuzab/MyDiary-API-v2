@@ -17,3 +17,5 @@ try:
 except ImportError:
     # Python 2
     from urlparse import urlparse, parse_qs
+
+api = Namespace('Users', Description='User operations')
