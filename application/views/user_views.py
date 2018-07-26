@@ -7,3 +7,4 @@ from datetime import datetime
 import re
 
 from application.models.user_model import User
+from application import db
