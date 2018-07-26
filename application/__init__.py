@@ -36,9 +36,6 @@ def create_app(config, database=None):
     global db
     db = Database(app.config)
 
-    from application.views import blacklist
-
-
     from application.views.entry_views import api as rides
     from application.views.user_views import api as user
     api.add_namespace(rides, path='/api/v1')
@@ -47,7 +44,7 @@ def create_app(config, database=None):
     from application.docs.views import docs
     app.register_blueprint(docs)
 
-    """ create database tables """
+    """ Create database tables """
     db.create_all()
     return app
 
