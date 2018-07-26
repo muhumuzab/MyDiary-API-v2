@@ -10,4 +10,16 @@ api = Namespace('diary entry', Description='Operations on entries')
 
 
 class Entry(Resource):
+    @jwt_required
+    def get(self, entry_id=None):
+        
+        query = ''
+        
+        query = "SELECT * from entries where entry_id = {}"\
+                . format(entry_id)
+
+                  
+        result = db.execute(query)
+        row = result.fetchone()
+        return jsonify([{'id': row[0], 'title': row[2],'body': row[3]}])
     
