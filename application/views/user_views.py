@@ -104,3 +104,6 @@ class UserLogin(Resource):
         except Exception as e:
             print(e)
             return {'message': 'Request not successful'}, 500
+
+api.add_resource(UserSignUp, '/auth/signup')
+api.add_resource(UserLogin, '/auth/login')
