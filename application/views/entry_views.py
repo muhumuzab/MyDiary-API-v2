@@ -10,7 +10,7 @@ api = Namespace('diary entry', Description='Operations on entries')
 
 
 class Entry(Resource):
-
+    """ get a single diary entry """
     @jwt_required
     def get(self, entry_id=None):
   
@@ -20,7 +20,7 @@ class Entry(Resource):
         row = result.fetchone()
         return jsonify([{'id': row[0], 'title': row[2],'body': row[3]}])
     
-
+    """ update a diary entry """
     @jwt_required
     def put(self,entry_id):
 
@@ -50,19 +50,16 @@ class Entry(Resource):
         return jsonify({'id': entry[0],'title': entry[2], 'body': entry[3]})
 
 class Entries(Resource):
-
+    """ Create diary entry """
     @jwt_required
     def post(self):
-        """ Creates a new diary entry """
+        
         data = request.get_json()
         current_user_email = get_jwt_identity()
         # Check whether there is data
         if any(data):
 
             # save entry to data structure
-            
-
-                
             entry = DiaryEntry(data)
             # save data here
             entry.save(current_user_email)
@@ -71,12 +68,11 @@ class Entries(Resource):
         else:
             return {'message': 'no data provided.'}, 409
 
-
+    """ get all diary entries """
     @jwt_required
     def get(self):
 
         try:
-
             query = "SELECT * from entries"
             result = db.execute(query)
             rows = result.fetchall()
