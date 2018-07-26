@@ -5,3 +5,7 @@ from flask_cors import CORS
 
 from application.config import configuration
 from application.manage import Database
+
+
+db = None
+jwt = None
