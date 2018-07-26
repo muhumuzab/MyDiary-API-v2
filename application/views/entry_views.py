@@ -4,3 +4,4 @@ from flask import request, jsonify
 from datetime import datetime
 
 from application.models.entry_models import DiaryEntry
+from application import db
