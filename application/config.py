@@ -16,9 +16,15 @@ class Config(object):
 
 
 class ProductionConfig(Config):
+    DEBUG = False
 
 
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
     DATABASE_NAME = 'diary'
+
+class TestingConfig(Config):
+    TESTING = False
+    DEBUG = True
+    DATABASE_NAME = 'test_diary'
