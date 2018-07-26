@@ -24,4 +24,48 @@ def validate_email(email):
     match = re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]*\.*[com|org|edu]{3}$)",email)
     if match is not None:
         return True
-    return False
+    return False 
+
+class UserSignUp(Resource):
+
+    @api.doc('user accounts',
+             responses={201: 'CREATED',
+                        400: 'BAD FORMAT', 409: 'CONFLICT'})
+    @api.expect(usermodel)
+    def post(self):
+        """User sign up"""
+        userData = request.get_json()
+        firstname = userData['firstname']
+        secondname = userData['secondname']
+        confirmPassword = userData['confirm_password']
+        phone = userData['phone']
+        email = userData['email']
+        password = userData["password"]
+        
+        if email == "" or phone.strip() == ""\
+                or confirmPassword.strip() == "" or password.strip() == ""\
+                or firstname.strip() == "" or secondname.strip() == "":
+            return {"message": "Please ensure all fields are non-empty."}, 400
+
+        if len(password) < 6:
+            return {'message': 'password should be 6 characters or more.'}, 400
+
+        if not validate_email(email):
+            return {"message": "Email is invalid"}, 400
+
+        if not password == confirmPassword:
+            return {'message': 'Passwords do not match'}, 400
+
+        try:
+            query = "select email from users where email='%s'\
+             or phone='%s'" % (email, phone)
+            result = db.execute(query)
+            user = result.fetchone()
+            if user is None:
+                userObject = User(userData)
+                userObject.save()
+                return {'message': 'Account created.'}, 201
+            return {'message': 'User exists.'}, 409
+        except Exception as e:
+            print(e)
+            return {'message': 'Request not successful'}, 500
