@@ -9,3 +9,5 @@ from application.manage import Database
 
 db = None
 jwt = None
+
+def create_app(config, database=None):
