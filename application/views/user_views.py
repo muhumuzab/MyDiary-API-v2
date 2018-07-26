@@ -69,3 +69,38 @@ class UserSignUp(Resource):
         except Exception as e:
             print(e)
             return {'message': 'Request not successful'}, 500
+
+
+
+class UserLogin(Resource):
+
+    
+    def post(self):
+        """User login
+        :returns JWT after successful login
+        """
+
+        userData = request.get_json()
+        email = userData['email']
+        password = userData['password']
+
+        if email.strip() == "" or password.strip() == "":
+            return {"message": "Password or email cannot be empty."}, 401
+
+        try:
+            query = "select password from users where email='{}'"\
+                    . format(email)
+            result = db.execute(query)
+            user = result.fetchone()
+
+            if user is None:
+                return {'message': 'User not found.'}, 404
+
+            if check_password_hash(user[0], password):
+                token = create_access_token(identity=email)
+                return {'message': 'logged in.', 'token': token}, 201
+            else:
+                return {'message': 'Invalid password.'}, 401
+        except Exception as e:
+            print(e)
+            return {'message': 'Request not successful'}, 500
