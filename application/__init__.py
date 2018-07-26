@@ -26,3 +26,28 @@ def create_app(config, database=None):
               doc='/api/v1/documentation',
               description='My Diary is a online journal where users can write down \
                           their thoughts and feelings')
+
+
+
+    global jwt
+    jwt = JWTManager(app)
+    jwt._set_error_handler_callbacks(api)                      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
