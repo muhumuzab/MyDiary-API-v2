@@ -45,6 +45,8 @@ def create_app(config, database=None):
 
     from application.views.entry_views import api as rides
     from application.views.user_views import api as user
+    api.add_namespace(rides, path='/api/v1')
+    api.add_namespace(user, path='/api/v1')
 
 
 
