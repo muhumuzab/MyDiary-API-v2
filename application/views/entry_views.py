@@ -10,7 +10,7 @@ api = Namespace('diary entry', Description='Operations on entries')
 
 
 class Entry(Resource):
-    
+
     @jwt_required
     def get(self, entry_id=None):
         
@@ -52,3 +52,5 @@ class Entry(Resource):
         result = db.execute(query)
         entry = result.fetchone()
         return jsonify({'id': entry[0],'title': entry[2], 'body': entry[3]})
+
+class Entries(Resource):
