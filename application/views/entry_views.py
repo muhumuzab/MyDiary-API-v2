@@ -97,7 +97,8 @@ class Entries(Resource):
         except Exception as e:
             return {'message': 'Request not successful'}, 500
 
-
+api.add_resource(Entries, '/entries')
+api.add_resource(Entry, '/entries/<entry_id>')
 
 
 
