@@ -16,3 +16,7 @@ def create_app(config, database=None):
     CORS(app)
     app.config.from_object(configuration[config])
     app.url_map.strict_slashes = False
+
+    # Enable swagger editor
+    app.config['SWAGGE_UI_JSNEDITOR'] = True
+
