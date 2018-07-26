@@ -33,6 +33,8 @@ def create_app(config, database=None):
     jwt = JWTManager(app)
     jwt._set_error_handler_callbacks(api)                      
 
+    global db
+    db = Database(app.config)
 
 
 
