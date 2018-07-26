@@ -8,7 +8,7 @@ import re
 
 from application.models.user_model import User
 from application import db
-from . import blacklist
+
 
 
 try:
