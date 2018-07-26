@@ -10,6 +10,7 @@ api = Namespace('diary entry', Description='Operations on entries')
 
 
 class Entry(Resource):
+    
     @jwt_required
     def get(self, entry_id=None):
         
@@ -23,3 +24,31 @@ class Entry(Resource):
         row = result.fetchone()
         return jsonify([{'id': row[0], 'title': row[2],'body': row[3]}])
     
+
+    @jwt_required
+    def put(self,entry_id):
+
+        query = "select * from entries where entry_id='{}'".format(entry_id)
+        result = db.execute(query)
+        entry = result.fetchone()
+        if entry is None:
+            return {'message': 'diary entry with given id does not exist'}, 404
+        current_user_email = get_jwt_identity()
+        query =  "select user_id from users where email='{}'"\
+                    . format(current_user_email)
+        result = db.execute(query)
+        user_id = result.fetchone()
+        if not entry[1] == user_id[0]:
+            return {'message': 'You cannot change \
+                        details of diary entry that you do not own'}, 401
+        
+        data = request.get_json()
+       
+
+        query = "update entries set title='{}',body='{}' where entry_id='{}'".format(data['title'], data['body'], int(entry_id))
+        db.execute(query)
+        
+        query = "select * from entries where entry_id='{}'".format(entry_id)
+        result = db.execute(query)
+        entry = result.fetchone()
+        return jsonify({'id': entry[0],'title': entry[2], 'body': entry[3]})
