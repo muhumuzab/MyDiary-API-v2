@@ -28,3 +28,9 @@ class TestingConfig(Config):
     TESTING = False
     DEBUG = True
     DATABASE_NAME = 'test_diary'
+
+configuration = {
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'production': ProductionConfig
+}
