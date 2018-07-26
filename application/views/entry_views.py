@@ -5,3 +5,5 @@ from datetime import datetime
 
 from application.models.entry_models import DiaryEntry
 from application import db
+
+api = Namespace('diary entry', Description='Operations on entries')
