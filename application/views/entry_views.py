@@ -7,3 +7,7 @@ from application.models.entry_models import DiaryEntry
 from application import db
 
 api = Namespace('diary entry', Description='Operations on entries')
+
+
+class Entry(Resource):
+    
