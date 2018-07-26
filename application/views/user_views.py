@@ -27,13 +27,9 @@ def validate_email(email):
     return False 
 
 class UserSignUp(Resource):
-
-    @api.doc('user accounts',
-             responses={201: 'CREATED',
-                        400: 'BAD FORMAT', 409: 'CONFLICT'})
-    @api.expect(usermodel)
+    """ Enable user to sign up """
     def post(self):
-        """User sign up"""
+        
         userData = request.get_json()
         firstname = userData['firstname']
         secondname = userData['secondname']
@@ -73,13 +69,9 @@ class UserSignUp(Resource):
 
 
 class UserLogin(Resource):
-
-    
+    """ Enable user to login / generate jwt token """
     def post(self):
-        """User login
-        :returns JWT after successful login
-        """
-
+    
         userData = request.get_json()
         email = userData['email']
         password = userData['password']
