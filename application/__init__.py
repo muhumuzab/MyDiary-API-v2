@@ -43,7 +43,8 @@ def create_app(config, database=None):
         jti = decrypted_token['jti']
         return jti in blacklist
 
-
+    from application.views.entry_views import api as rides
+    from application.views.user_views import api as user
 
 
 
