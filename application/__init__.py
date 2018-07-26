@@ -20,3 +20,9 @@ def create_app(config, database=None):
     # Enable swagger editor
     app.config['SWAGGE_UI_JSNEDITOR'] = True
 
+    # initialize api
+    api = Api(app=app,
+              title='My Diary',
+              doc='/api/v1/documentation',
+              description='My Diary is a online journal where users can write down \
+                          their thoughts and feelings')
