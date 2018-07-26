@@ -11,3 +11,8 @@ db = None
 jwt = None
 
 def create_app(config, database=None):
+
+    app = Flask(__name__, instance_relative_config=True, static_folder=None)
+    CORS(app)
+    app.config.from_object(configuration[config])
+    app.url_map.strict_slashes = False
