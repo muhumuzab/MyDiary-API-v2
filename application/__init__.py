@@ -38,10 +38,6 @@ def create_app(config, database=None):
 
     from application.views import blacklist
 
-    @jwt.token_in_blacklist_loader
-    def check_if_token_in_blacklist(decrypted_token):
-        jti = decrypted_token['jti']
-        return jti in blacklist
 
     from application.views.entry_views import api as rides
     from application.views.user_views import api as user
