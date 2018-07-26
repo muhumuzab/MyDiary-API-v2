@@ -1,1 +1,2 @@
 from werkzeug.security import check_password_hash
+from flask_jwt_extended import jwt_required, get_raw_jwt, create_access_token, get_jwt_identity
