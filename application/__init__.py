@@ -36,6 +36,39 @@ def create_app(config, database=None):
     global db
     db = Database(app.config)
 
+    from application.views import blacklist
+
+    @jwt.token_in_blacklist_loader
+    def check_if_token_in_blacklist(decrypted_token):
+        jti = decrypted_token['jti']
+        return jti in blacklist
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
