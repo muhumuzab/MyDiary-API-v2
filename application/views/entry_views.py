@@ -54,3 +54,23 @@ class Entry(Resource):
         return jsonify({'id': entry[0],'title': entry[2], 'body': entry[3]})
 
 class Entries(Resource):
+
+    @jwt_required
+    def post(self):
+        """ Creates a new diary entry """
+        data = request.get_json()
+        current_user_email = get_jwt_identity()
+        # Check whether there is data
+        if any(data):
+
+            # save entry to data structure
+            
+
+                
+            entry = DiaryEntry(data)
+            # save data here
+            entry.save(current_user_email)
+            return {'message':
+                    'diary entry added successfully.'}, 201
+        else:
+            return {'message': 'no data provided.'}, 409
