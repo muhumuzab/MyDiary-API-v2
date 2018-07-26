@@ -13,4 +13,7 @@ class Config(object):
     PASSWORD = 'annet'
     HOST = 'localhost'
     USER = 'postgres'
-    
+
+
+class ProductionConfig(Config):
+    DEBUG = False
