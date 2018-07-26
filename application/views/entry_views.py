@@ -74,3 +74,39 @@ class Entries(Resource):
                     'diary entry added successfully.'}, 201
         else:
             return {'message': 'no data provided.'}, 409
+
+
+    @jwt_required
+    def get(self):
+
+        try:
+
+            query = "SELECT * from entries"
+            result = db.execute(query)
+            rows = result.fetchall()
+            if (len(rows) == 0):
+
+                # if no diary entries
+                return {'message': 'Found no diary entries'}, 404
+            else:
+
+                return jsonify([
+                    {'id': row[0], 'title': row[2], 'body': row[3]}
+                    for row in rows])
+            
+        except Exception as e:
+            return {'message': 'Request not successful'}, 500
+
+
+
+
+
+
+
+
+
+
+
+
+
+
