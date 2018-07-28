@@ -23,7 +23,7 @@ class DiaryEntry():
         
 
     def save(self, current_user_email):
-        # insert new record
+        # insert data into db
         query = "INSERT INTO entries (owner_id, title, body, date_created, date_modified) \
                 VALUES ((SELECT user_id from users where email ='{}'), '{}', '{}', '{}','{}')" \
                                                     . format(current_user_email,
@@ -88,7 +88,7 @@ class DiaryEntry():
         if any(data):
 
             """ save diary entry to db """
-            
+
             entry = DiaryEntry()
             entry.title = data["title"]
             entry.body = data["body"]
@@ -116,7 +116,7 @@ class DiaryEntry():
             else:
 
                 response = make_response(jsonify([
-                    {'id': row[0], 'title': row[2], 'body': row[3]}
+                    {'id': row[0], 'title': row[2], 'body': row[3],'date_created': row[4],'date_modified': row[5]}
                     for row in rows]), 200)
                 return response
             
