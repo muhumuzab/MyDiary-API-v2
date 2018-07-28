@@ -18,7 +18,7 @@ class Entry(Resource):
                 . format(entry_id)      
         result = db.execute(query)
         row = result.fetchone()
-        return jsonify([{'id': row[0], 'title': row[2],'body': row[3]}])
+        return jsonify([{'id': row[0], 'title': row[2],'body': row[3], 'date_created' : row[4],'date_modified' : row[5]}])
     
     """ update a diary entry """
     @jwt_required
