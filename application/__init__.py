@@ -1,7 +1,6 @@
 from flask import Flask, Blueprint
 from flask_restplus import Api
 from flask_jwt_extended import JWTManager
-from flask_cors import CORS
 
 from application.config import configuration
 from application.manage import Database
@@ -13,7 +12,6 @@ jwt = None
 def create_app(config, database=None):
 
     app = Flask(__name__, instance_relative_config=True, static_folder=None)
-    CORS(app)
     app.config.from_object(configuration[config])
     app.url_map.strict_slashes = False
 
@@ -36,13 +34,13 @@ def create_app(config, database=None):
     global db
     db = Database(app.config)
 
-    from application.views.entry_views import api as rides
+    from application.views.entry_views import api as entries
     from application.views.user_views import api as user
-    api.add_namespace(rides, path='/api/v1')
+    api.add_namespace(entries, path='/api/v1')
     api.add_namespace(user, path='/api/v1')
 
-    from application.docs.views import docs
-    app.register_blueprint(docs)
+    #from application.docs.views import docs
+    #app.register_blueprint(docs)
 
     """ Create database tables """
     db.create_all()
