@@ -9,85 +9,49 @@ from application import db
 api = Namespace('diary entry', Description='Operations on entries')
 
 
+diary = DiaryEntry()
+
 class Entry(Resource):
-    """ get a single diary entry """
+    
     @jwt_required
     def get(self, entry_id=None):
-  
-        query = "SELECT * from entries where entry_id = {}"\
-                . format(entry_id)      
-        result = db.execute(query)
-        row = result.fetchone()
-        return jsonify([{'id': row[0], 'title': row[2],'body': row[3], 'date_created' : row[4],'date_modified' : row[5]}])
+        """ get a single diary entry """
+
+        response = diary.get_diary_entry(entry_id)
+        return response
+
     
-    """ update a diary entry """
+    
     @jwt_required
     def put(self,entry_id):
+        """ update a diary entry """
 
-        query = "select * from entries where entry_id='{}'".format(entry_id)
-        result = db.execute(query)
-        entry = result.fetchone()
-        if entry is None:
-            return {'message': 'diary entry with given id does not exist'}, 404
-        current_user_email = get_jwt_identity()
-        query =  "select user_id from users where email='{}'"\
-                    . format(current_user_email)
-        result = db.execute(query)
-        user_id = result.fetchone()
-        if not entry[1] == user_id[0]:
-            return {'message': 'You cannot change \
-                        details of diary entry that you do not own'}, 401
-        
-        data = request.get_json()
-       
+        response = diary.update_diary_entry(entry_id)
+        return response
 
-        query = "update entries set title='{}',body='{}' where entry_id='{}'".format(data['title'], data['body'], int(entry_id))
-        db.execute(query)
-        
-        query = "select * from entries where entry_id='{}'".format(entry_id)
-        result = db.execute(query)
-        entry = result.fetchone()
-        return jsonify({'id': entry[0],'title': entry[2], 'body': entry[3]})
+
+
 
 class Entries(Resource):
-    """ Create diary entry """
+    
     @jwt_required
     def post(self):
-        
+        """ create diary entry """
+    
         data = request.get_json()
-        current_user_email = get_jwt_identity()
-        # Check whether there is data
-        if any(data):
+        response = diary.post_diary_entry(data)
+        return response
 
-            # save entry to data structure
-            entry = DiaryEntry(data)
-            # save data here
-            entry.save(current_user_email)
-            return {'message':
-                    'diary entry added successfully.'}, 201
-        else:
-            return {'message': 'no data provided.'}, 409
-
-    """ get all diary entries """
+    
     @jwt_required
     def get(self):
+        """ get all diary entries """
+       
+        response = diary.get_all_entries()
+        return response
 
-        try:
-            query = "SELECT * from entries"
-            result = db.execute(query)
-            rows = result.fetchall()
-            if (len(rows) == 0):
 
-                # if no diary entries
-                return {'message': 'Found no diary entries'}, 404
-            else:
 
-                return jsonify([
-                    {'id': row[0], 'title': row[2], 'body': row[3]}
-                    for row in rows])
-            
-        except Exception as e:
-            return {'message': 'Request not successful'}, 500
 
 api.add_resource(Entries, '/entries')
 api.add_resource(Entry, '/entries/<entry_id>')

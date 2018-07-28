@@ -13,12 +13,13 @@ class DiaryEntry():
     date_modified: date when diary entry was modified
     
     """
-    def __init__(self, data):
-        self.title = data['title']
-        self.body = data['body']
+    def __init__(self):
+
+        self.title = ''
+        self.body = '' 
         self.date_modified = None
         self.date_created = datetime.datetime.utcnow()
-	    #
+	    
         
 
     def save(self, current_user_email):
@@ -33,6 +34,7 @@ class DiaryEntry():
                                                         )
         db.execute(query)        
 
+
     """ get a single diary entry """
    
     def get_diary_entry(self, entry_id=None):
@@ -42,8 +44,7 @@ class DiaryEntry():
                 . format(entry_id)      
         result = db.execute(query)
         row = result.fetchone()
-        #response = make_response(jsonify([{'id': row[0], 'title': row[2],'body': row[3], \
-                                            #'date_created' : row[4],'date_modified' : row[5]}]), 200)
+        
         return [{'id': row[0], 'title': row[2],'body': row[3], \
                                             'date_created' : row[4],'date_modified' : row[5]}], 200
         
@@ -74,30 +75,33 @@ class DiaryEntry():
         query = "select * from entries where entry_id='{}'".format(entry_id)
         result = db.execute(query)
         entry = result.fetchone()
-        
+
         return {'id': entry[0],'title': entry[2], 'body': entry[3],'date_created': entry[4],'date_modified': entry[5]}
 
     """ Create diary entry """
     
-    def post(self):
+    def post_diary_entry(self, data):
         
-        data = request.get_json()
+        
         current_user_email = get_jwt_identity()
-        # Check whether there is data
+
         if any(data):
 
-            # save entry to data structure
-            entry = DiaryEntry(data)
+            """ save diary entry to db """
+            
+            entry = DiaryEntry()
+            entry.title = data["title"]
+            entry.body = data["body"]
             # save data here
             entry.save(current_user_email)
             return {'message':
                     'diary entry added successfully.'}, 201
         else:
             return {'message': 'no data provided.'}, 409
-
+        
     """ get all diary entries """
     
-    def get(self):
+    def get_all_entries(self):
 
         response = {}
 
