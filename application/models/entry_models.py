@@ -115,9 +115,8 @@ class DiaryEntry():
                 return {'message': 'Found no diary entries'}, 404
             else:
 
-                response = make_response(jsonify([
-                    {'id': row[0], 'title': row[2], 'body': row[3],'date_created': row[4],'date_modified': row[5]}
-                    for row in rows]), 200)
+                response = [{'id': row[0], 'title': row[2], 'body': row[3],\
+                'date_created': row[4],'date_modified': row[5]} for row in rows ], 200
                 return response
             
         except Exception as e:
