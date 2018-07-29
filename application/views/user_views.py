@@ -40,17 +40,21 @@ class UserSignUp(Resource):
         email = userData['email']
         password = userData["password"]
         
+        """ check for empty fields """
         if email == "" or phone.strip() == ""\
                 or confirmPassword.strip() == "" or password.strip() == ""\
                 or firstname.strip() == "" or secondname.strip() == "":
             return {"message": "Please ensure all fields are non-empty."}, 400
 
+        """ check if password id less than 6 characters """
         if len(password) < 6:
             return {'message': 'password should be 6 characters or more.'}, 400
 
+        """ match email against regular expression """
         if not validate_email(email):
             return {"message": "Email is invalid"}, 400
 
+        """ if passwords dont match """
         if not password == confirmPassword:
             return {'message': 'Passwords do not match'}, 400
 
@@ -59,6 +63,7 @@ class UserSignUp(Resource):
              or phone='%s'" % (email, phone)
             result = db.execute(query)
             user = result.fetchone()
+            """ if no user, save user data """
             if user is None:
                 userObject = User(userData)
                 userObject.save()
@@ -78,6 +83,7 @@ class UserLogin(Resource):
         email = userData['email']
         password = userData['password']
 
+        """ check for empty fields """
         if email.strip() == "" or password.strip() == "":
             return {"message": "Password or email cannot be empty."}, 401
 
@@ -92,7 +98,7 @@ class UserLogin(Resource):
 
             if check_password_hash(user[0], password):
                 token = create_access_token(identity=email)
-                return {'message': 'logged in.', 'token': token}, 201
+                return {'message': 'You have succesfully logged in.', 'token': token}, 201
             else:
                 return {'message': 'Invalid password.'}, 401
         except Exception as e:

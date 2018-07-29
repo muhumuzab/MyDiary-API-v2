@@ -19,7 +19,7 @@ class DiaryEntry():
         self.title = ''
         self.body = '' 
         self.date_modified = None
-        self.date_created = datetime.datetime.utcnow()
+        self.date_created = datetime.date.today()
 	    
         
 
@@ -56,6 +56,7 @@ class DiaryEntry():
         query = "select * from entries where entry_id='{}'".format(entry_id)
         result = db.execute(query)
         entry = result.fetchone()
+
 
         """ if not found """
         if entry is None:
@@ -96,9 +97,26 @@ class DiaryEntry():
             """ validate for empty fields """
             if title and body:
 
+                """ retrieve date_created field of this entry """
+                date_created = entry[4]
+                """ convert string to date type """
+                datetime_obj = datetime.datetime.strptime(date_created, '%Y-%m-%d').date()
 
-                query = "update entries set title='{}',body='{}' where entry_id='{}'".format(data['title'], data['body'], int(entry_id))
-                db.execute(query)
+                """ compare date_created with current date """
+                if datetime_obj == datetime.date.today():
+                    
+
+                    query = "update entries set title='{}',body='{}' where entry_id='{}'"\
+                                .format(data['title'], data['body'], int(entry_id))
+                    db.execute(query)
+                    return {'message': 'diary entry updated succesfully','date':date_created}, 406
+                    
+                    
+                else:
+                    return {'message': 'diary entry can only be updated on the day it was created'}, 406
+                    
+                    
+                    
             else:
                 return {'message': 'Missing title or body fields.'}, 500
 
@@ -116,9 +134,10 @@ class DiaryEntry():
         query = "select user_id from users where email='{}'".format(get_jwt_identity())
         result = db.execute(query)
         user_id = result.fetchone()
-        """ select entry with entry id  = parameter """
-                           #and 
-        """ owner_id same as id of logged in user  """
+        """ select entry with entry id  = parameter 
+                           and 
+            owner_id same as id of logged in user  """
+
         query = "select * from entries where entry_id='{}' and owner_id='{}'"\
                 .format(entry_id,user_id[0])
         result = db.execute(query)
