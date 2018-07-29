@@ -1,6 +1,7 @@
 from flask import Flask, make_response,jsonify,request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import datetime
+import re
 from application import db
 
 
@@ -51,10 +52,12 @@ class DiaryEntry():
     
     """ update a diary entry """
     def update_diary_entry(self,entry_id):
-
+        """ get diary entry """
         query = "select * from entries where entry_id='{}'".format(entry_id)
         result = db.execute(query)
         entry = result.fetchone()
+
+        """ if not found """
         if entry is None:
             return {'message': 'diary entry with given id does not exist'}, 404
         current_user_email = get_jwt_identity()
@@ -62,12 +65,13 @@ class DiaryEntry():
                     . format(current_user_email)
         result = db.execute(query)
         user_id = result.fetchone()
+        """ if entry owner id doesnot match id of current user """
         if not entry[1] == user_id[0]:
             return {'message': 'You cannot change \
                         details of diary entry that you do not own'}, 401
         
         data = request.get_json()
-       
+        """ update diary entry """
 
         query = "update entries set title='{}',body='{}' where entry_id='{}'".format(data['title'], data['body'], int(entry_id))
         db.execute(query)
@@ -82,22 +86,51 @@ class DiaryEntry():
     
     def post_diary_entry(self, data):
         
-        
-        current_user_email = get_jwt_identity()
+        try:
 
-        if any(data):
+            current_user_email = get_jwt_identity()
 
-            """ save diary entry to db """
+            title_json = data['title']
+            body_json = data['body']
 
-            entry = DiaryEntry()
-            entry.title = data["title"]
-            entry.body = data["body"]
-            # save data here
-            entry.save(current_user_email)
-            return {'message':
+            title = title_json.strip()
+            body = body_json.strip()
+
+            """ validate for duplicate entry titles """
+            
+            query = "select * from entries where title='{}'".format(title)
+            result = db.execute(query)
+            rows = result.fetchall() 
+            if(len(rows) > 0):
+                return {'message': 'diary entry with such title already exists'}, 406
+
+            """ validate for alphanumeric characters """
+
+            if not re.match('^[a-zA-Z0-9_]+$',title):
+                return {'message':
+                    'title can only be letters or numbers.'}, 406
+
+            """ validate for empty fields """
+            if title and body:
+
+
+                """ save diary entry to db """
+
+                entry = DiaryEntry()
+                entry.title = data["title"]
+                entry.body = data["body"]
+                # save data here
+                entry.save(current_user_email)
+                return {'message':
                     'diary entry added successfully.'}, 201
-        else:
-            return {'message': 'no data provided.'}, 409
+            else:
+                return {'message': 'Missing title or body fields.'}, 500
+
+            """ validate for missing keys """
+        except (KeyError):
+            return {'message': 'missing title or body keys'}, 406
+
+        
         
     """ get all diary entries """
     
@@ -109,9 +142,8 @@ class DiaryEntry():
             query = "SELECT * from entries"
             result = db.execute(query)
             rows = result.fetchall()
+            """ if no diary entries found """
             if (len(rows) == 0):
-
-                # if no diary entries
                 return {'message': 'Found no diary entries'}, 404
             else:
 
