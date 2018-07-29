@@ -52,7 +52,7 @@ class DiaryEntry():
     
     """ update a diary entry """
     def update_diary_entry(self,entry_id):
-        """ get diary entry """
+        """ get diary entry by id """
         query = "select * from entries where entry_id='{}'".format(entry_id)
         result = db.execute(query)
         entry = result.fetchone()
@@ -69,18 +69,47 @@ class DiaryEntry():
         if not entry[1] == user_id[0]:
             return {'message': 'You cannot change \
                         details of diary entry that you do not own'}, 401
-        
-        data = request.get_json()
-        """ update diary entry """
+        try:
 
-        query = "update entries set title='{}',body='{}' where entry_id='{}'".format(data['title'], data['body'], int(entry_id))
-        db.execute(query)
-        
-        query = "select * from entries where entry_id='{}'".format(entry_id)
-        result = db.execute(query)
-        entry = result.fetchone()
+            data = request.get_json()
 
-        return {'id': entry[0],'title': entry[2], 'body': entry[3],'date_created': entry[4],'date_modified': entry[5]}
+            title_json = data['title']
+            body_json = data['body']
+
+            title = title_json.strip()
+            body = body_json.strip()
+
+            """ validate for duplicate entry titles """
+            
+            query = "select * from entries where title='{}'".format(title)
+            result = db.execute(query)
+            rows = result.fetchall() 
+            if(len(rows) > 0):
+                return {'message': 'diary entry with such title already exists'}, 406
+
+            """ validate for alphanumeric characters """
+
+            if not re.match('^[a-zA-Z0-9_]+$',title):
+                return {'message':
+                        'title can only be letters or numbers.'}, 406
+
+            """ validate for empty fields """
+            if title and body:
+
+
+                query = "update entries set title='{}',body='{}' where entry_id='{}'".format(data['title'], data['body'], int(entry_id))
+                db.execute(query)
+            else:
+                return {'message': 'Missing title or body fields.'}, 500
+
+        
+            query = "select * from entries where entry_id='{}'".format(entry_id)
+            result = db.execute(query)
+            entry = result.fetchone()
+
+            return {'id': entry[0],'title': entry[2], 'body': entry[3],'date_created': entry[4],'date_modified': entry[5]}
+        except (KeyError):
+            return {'message': 'missing title or body keys'}, 406
 
     """ Create diary entry """
     
