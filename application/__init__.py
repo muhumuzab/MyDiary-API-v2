@@ -30,7 +30,13 @@ def create_app(config, database=None):
     jwt._set_error_handler_callbacks(api)        
 
     from application.views import blacklist 
-    """ check if tokens jti(unique identifier) is in te blacklist set """
+    """
+    This decorator sets the callback function that will 
+    be called when a protected endpoint 
+    is accessed and will check if the JWT has been been revoked.
+
+    Returns True if the token has been blacklisted or False otherwise.
+    """
    
     @jwt.token_in_blacklist_loader
     def check_if_token_in_blacklist(decrypted_token):
