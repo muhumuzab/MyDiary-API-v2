@@ -29,7 +29,12 @@ class Entry(Resource):
         response = diary.update_diary_entry(entry_id)
         return response
 
-
+    @jwt_required 
+    def delete(self,entry_id):
+        """ delete diary entry """
+        response = diary.delete_diary_entry(entry_id)
+        return response
+    
 
 
 class Entries(Resource):

@@ -110,6 +110,27 @@ class DiaryEntry():
             return {'id': entry[0],'title': entry[2], 'body': entry[3],'date_created': entry[4],'date_modified': entry[5]}
         except (KeyError):
             return {'message': 'missing title or body keys'}, 406
+    
+    def delete_diary_entry(self,entry_id):
+        """ get id of logged in user """
+        query = "select user_id from users where email='{}'".format(get_jwt_identity())
+        result = db.execute(query)
+        user_id = result.fetchone()
+        """ select entry with entry id  = parameter """
+                           #and 
+        """ owner_id same as id of logged in user  """
+        query = "select * from entries where entry_id='{}' and owner_id='{}'"\
+                .format(entry_id,user_id[0])
+        result = db.execute(query)
+        if len(result.fetchall()) > 0:
+            query = "delete from entries where entry_id='{}' and owner_id='{}'"\
+                .format(entry_id,user_id[0])
+            result = db.execute(query)
+            return {'message': 'Diary entry deleted successfully'}, 200
+        else:
+            return {'message': 'Diary entry not found'}, 404
+
+
 
     """ Create diary entry """
     
