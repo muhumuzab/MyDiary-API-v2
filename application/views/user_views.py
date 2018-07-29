@@ -101,11 +101,12 @@ class UserLogin(Resource):
 
 class Logout(Resource):
     """ log out user """
+    @jwt_required
     def post(self):
         """ blacklist user's token """
         jti = get_raw_jwt()['jti']
         blacklist.add(jti)
-        return ({'message': 'Succesfully logged out'}), 200
+        return ({'message': 'You have successfully logged out'}), 200
 
 
 
@@ -114,4 +115,4 @@ class Logout(Resource):
 
 api.add_resource(UserSignUp, '/auth/signup')
 api.add_resource(UserLogin, '/auth/login')
-api.add_resource(Logout, '/auth/signout')
+api.add_resource(Logout, '/auth/logout')

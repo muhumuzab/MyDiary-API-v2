@@ -69,7 +69,7 @@ class Database(object):
 
     
     def __del__(self):
-        # close connectin to the database
+        # close connection to the database
         self.connection.close()
     
 
