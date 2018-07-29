@@ -15,8 +15,6 @@ def create_app(config, database=None):
     app.config.from_object(configuration[config])
     app.url_map.strict_slashes = False
 
-    # Enable swagger editor
-    app.config['SWAGGE_UI_JSNEDITOR'] = True
 
     # initialize api
     api = Api(app=app,
@@ -29,7 +27,16 @@ def create_app(config, database=None):
 
     global jwt
     jwt = JWTManager(app)
-    jwt._set_error_handler_callbacks(api)                      
+    jwt._set_error_handler_callbacks(api)        
+
+    from application.views import blacklist 
+    """ check if tokens jti(unique identifier) is in te blacklist set """
+   
+    @jwt.token_in_blacklist_loader
+    def check_if_token_in_blacklist(decrypted_token):
+        jti = decrypted_token['jti']
+        return jti in blacklist
+
 
     global db
     db = Database(app.config)

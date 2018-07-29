@@ -6,6 +6,8 @@ from flask import request, jsonify
 from datetime import datetime
 import re
 
+from . import blacklist
+
 from application.models.user_model import User
 from application import db
 
@@ -97,5 +99,19 @@ class UserLogin(Resource):
             print(e)
             return {'message': 'Request not successful'}, 500
 
+class Logout(Resource):
+    """ log out user """
+    def post(self):
+        """ blacklist user's token """
+        jti = get_raw_jwt()['jti']
+        blacklist.add(jti)
+        return ({'message': 'Succesfully logged out'}), 200
+
+
+
+
+
+
 api.add_resource(UserSignUp, '/auth/signup')
 api.add_resource(UserLogin, '/auth/login')
+api.add_resource(Logout, '/auth/signout')

@@ -8,6 +8,8 @@ class Config(object):
     CSRF_ENABLED = True
     JWT_ALGORITHM = 'HS256'
     JWT_SECRET_KEY = 'harryporter123'
+    JWT_BLACKLIST_ENABLED = True 
+    JWT_BLACKLIST_TOKEN_CHECKS = ['access','refresh']
     PASSWORD = 'annet'
     HOST = 'localhost'
     USER = 'postgres'
