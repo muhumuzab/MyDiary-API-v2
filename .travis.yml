@@ -11,9 +11,7 @@ services:
   - postgresql
 
 before_script:
-  - psql -c "ALTER ROLE brin CREATEDB"
-  - psql -c "CREATE ROLE brin WITH SUPERUSER LOGIN PASSWORD 'annet';" -U brin
-  - psql -c "CREATE DATABASE test_one;" -U brin
+  - psql -c "CREATE DATABASE test_one;" -U postgres
 
 script: 
   - nosetests --with-coverage
