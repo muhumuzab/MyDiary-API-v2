@@ -40,3 +40,7 @@ To run this project, you'll need a working installation of python 3 and pip3. Yo
 
 # Testing
 
+1. Install nosetests - pip install nosetests
+2. Navigate to the root folder of the project.
+3. Open terminal and run nosetests - All tests should be passing.
+
