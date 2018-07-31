@@ -9,7 +9,7 @@ from application.manage import Database
 db = None
 jwt = None
 
-def create_app(config, database=None):
+def create_app(config):#database=None
 
     app = Flask(__name__, instance_relative_config=True, static_folder=None)
     app.config.from_object(configuration[config])
@@ -43,7 +43,7 @@ def create_app(config, database=None):
         jti = decrypted_token['jti']
         return jti in blacklist
 
-
+    """ make db variable visible in the entire folder """
     global db
     db = Database(app.config)
 
