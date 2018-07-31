@@ -73,5 +73,4 @@ class Database(object):
         self.connection.close()
     
 
-if __name__ == '__main__':
-    print("This file needs to be imported and linked with app configuration file.")
+

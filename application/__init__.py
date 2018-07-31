@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint
+from flask import Flask
 from flask_restplus import Api
 from flask_jwt_extended import JWTManager
 
@@ -52,8 +52,6 @@ def create_app(config):#database=None
     api.add_namespace(entries, path='/api/v1')
     api.add_namespace(user, path='/api/v1')
 
-    #from application.docs.views import docs
-    #app.register_blueprint(docs)
 
     """ Create database tables """
     db.create_all()
