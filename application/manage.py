@@ -48,7 +48,7 @@ class Database(object):
     def drop_all(self):
         commands = (
             'DROP TABLE "users" CASCADE',
-            'DROP TABLE "rides" CASCADE'
+            'DROP TABLE "entries" CASCADE'
         )
         try:
             cursor = self.connection.cursor()
