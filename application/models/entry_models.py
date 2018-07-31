@@ -40,14 +40,18 @@ class DiaryEntry():
    
     def get_diary_entry(self, entry_id=None):
         
-  
-        query = "SELECT * from entries where entry_id = {}"\
+        try:
+
+            query = "SELECT * from entries where entry_id = {}"\
                 . format(entry_id)      
-        result = db.execute(query)
-        row = result.fetchone()
+            result = db.execute(query)
+            row = result.fetchone()
         
-        return [{'id': row[0], 'title': row[2],'body': row[3], \
-                                            'date_created' : row[4],'date_modified' : row[5]}], 200
+            return {'id': row[0], 'title': row[2],'body': row[3], \
+                                            'date_created' : row[4],'date_modified' : row[5]}, 200
+
+        except:
+            return {'message':'entry with that id doesnot exist'}, 404
         
     
     """ update a diary entry """
@@ -89,10 +93,11 @@ class DiaryEntry():
                 return {'message': 'diary entry with such title already exists'}, 406
 
             """ validate for alphanumeric characters """
-
+            '''
             if not re.match('^[a-zA-Z0-9_]+$',title):
                 return {'message':
                         'title can only be letters or numbers.'}, 406
+            '''
 
             """ validate for empty fields """
             if title and body:
@@ -109,7 +114,7 @@ class DiaryEntry():
                     query = "update entries set title='{}',body='{}' where entry_id='{}'"\
                                 .format(data['title'], data['body'], int(entry_id))
                     db.execute(query)
-                    return {'message': 'diary entry updated succesfully','date':date_created}, 406
+                    return {'message': 'diary entry updated succesfully'}, 200
                     
                     
                 else:
@@ -118,7 +123,7 @@ class DiaryEntry():
                     
                     
             else:
-                return {'message': 'Missing title or body fields.'}, 500
+                return {'message': 'Missing title or body fields.'}, 406
 
         
             query = "select * from entries where entry_id='{}'".format(entry_id)
@@ -173,12 +178,7 @@ class DiaryEntry():
             if(len(rows) > 0):
                 return {'message': 'diary entry with such title already exists'}, 406
 
-            """ validate for alphanumeric characters """
-
-            if not re.match('^[a-zA-Z0-9_]+$',title):
-                return {'message':
-                    'title can only be letters or numbers.'}, 406
-
+            
             """ validate for empty fields """
             if title and body:
 
@@ -193,9 +193,16 @@ class DiaryEntry():
                 return {'message':
                     'diary entry added successfully.'}, 201
             else:
-                return {'message': 'Missing title or body fields.'}, 500
+                return {'message': 'Missing title or body fields.'}, 406
 
+            """ validate for alphanumeric characters """
+            
+            if not re.match('^[a-zA-Z0-9_]+$',title):
+                return {'message':
+                    'title can only be letters or numbers.'}, 406
+            
             """ validate for missing keys """
+
         except (KeyError):
             return {'message': 'missing title or body keys'}, 406
 
