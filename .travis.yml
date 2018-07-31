@@ -11,8 +11,8 @@ services:
   - postgresql
 
 before_script:
-  - psql - c "CREATE ROLE postgres WITH SUPERUSER LOGIN 'postgres';" -U postgres
-  - psql - c "CREATE DATABASE test_one;" -U postgres
+  - psql - "CREATE ROLE postgres WITH SUPERUSER LOGIN 'annet';" -U postgres
+  - psql - "CREATE DATABASE test_one;" -U postgres
 
 script:
   - nosetests --with-coverage
