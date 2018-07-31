@@ -1,6 +1,7 @@
 #import os
 #basedir = os.path.abspath(os.path.dirname(__file__))
 
+#use environment variables
 
 class Config(object):
     DEBUG = False

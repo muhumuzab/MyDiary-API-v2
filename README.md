@@ -16,12 +16,12 @@
 
 |  Endpoints | Description  | Public Access |
 | --- | :--- | ---: |
-| POST  `/api/v1/entries/signup`  | Sign up.| TRUE
-| POST  `/api/v1/entries/login`  | Log in.| TRUE
+| POST  `/api/v1/auth/signup`  | Sign up.| TRUE
+| POST  `/api/v1/auth/login`  | Log in.| TRUE
 | POST  `/api/v1/entries/`  | Add a diary entry.| FALSE
 | GET  `/api/v1/entries/`   | gets all diary entries.| FALSE
-| GET  `/api/v1/entries/<entry_id>`  | Get diary entry by id. | FALSE
-| PUT  `/api/v1/entries/<entry_id>`  | Update diary entry by id. | FALSE
+| GET  `/api/v1/entries/<entryId>`  | Get diary entry by id. | FALSE
+| PUT  `/api/v1/entries/<entryId>`  | Update diary entry by id. | FALSE
 
 
 
