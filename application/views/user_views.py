@@ -26,34 +26,36 @@ class UserSignUp(Resource):
     """ Enable user to sign up """
 
     def post(self):
-
-        user_data = request.get_json()
-        firstname = user_data['firstname']
-        secondname = user_data['secondname']
-        confirmPassword = user_data['confirm_password']
-        phone = user_data['phone']
-        email = user_data['email']
-        password = user_data["password"]
-
-        """ check for empty fields """
-        if email == "" or phone.strip() == ""\
-                or confirmPassword.strip() == "" or password.strip() == ""\
-                or firstname.strip() == "" or secondname.strip() == "":
-            return {"message": "Please ensure all fields are non-empty."}, 400
-
-        """ check if password id less than 6 characters """
-        if len(password) < 6:
-            return {'message': 'password should be 6 characters or more.'}, 400
-
-        """ match email against regular expression """
-        if not validate_email(email):
-            return {"message": "Email is invalid"}, 400
-
-        """ if passwords dont match """
-        if not password == confirmPassword:
-            return {'message': 'Passwords do not match'}, 400
-
         try:
+
+            
+            user_data = request.get_json()
+            firstname = user_data['firstname']
+            secondname = user_data['secondname']
+            confirmPassword = user_data['confirm_password']
+            phone = user_data['phone']
+            email = user_data['email']
+            password = user_data["password"]
+
+            """ check for empty fields """
+            if email == "" or phone.strip() == ""\
+                    or confirmPassword.strip() == "" or password.strip() == ""\
+                    or firstname.strip() == "" or secondname.strip() == "":
+                return {"message": "Please ensure all fields are non-empty."}, 400
+
+            """ check if password id less than 6 characters """
+            if len(password) < 6:
+                return {'message': 'password should be 6 characters or more.'}, 400
+
+            """ match email against regular expression """
+            if not validate_email(email):
+                return {"message": "Email is invalid"}, 400
+
+            """ if passwords dont match """
+            if not password == confirmPassword:
+                return {'message': 'Passwords do not match'}, 400
+
+        
 
             query = "select email from users where email='%s'\
              or phone='%s'" % (email, phone)
@@ -76,15 +78,18 @@ class UserLogin(Resource):
 
     def post(self):
 
-        user_data = request.get_json()
-        email = user_data['email']
-        password = user_data['password']
-
-        """ check for empty fields """
-        if email.strip() == "" or password.strip() == "":
-            return {"message": "Password or email cannot be empty."}, 401
 
         try:
+
+            user_data = request.get_json()
+            email = user_data['email']
+            password = user_data['password']
+
+            """ check for empty fields """
+            if email.strip() == "" or password.strip() == "":
+                return {"message": "Password or email cannot be empty."}, 401
+
+       
             query = "select password from users where email='{}'"\
                     . format(email)
             result = db.execute(query)
@@ -93,14 +98,16 @@ class UserLogin(Resource):
             if user is None:
                 return {'message': 'User not found.'}, 404
 
+            """ check if password given is equal to hashed password to db """
+
             if check_password_hash(user[0], password):
                 token = create_access_token(identity=email)
                 return {'message': 'You have succesfully logged in.', 'token': token}, 201
             else:
                 return {'message': 'Invalid password.'}, 401
-        except Exception as e:
-            print(e)
-            return {'message': 'Request not successful'}, 500
+        except(KeyError):
+
+            return {'message': 'Please ensure you have provided both email and password'}, 401
 
 
 class Logout(Resource):
