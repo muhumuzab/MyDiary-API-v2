@@ -11,27 +11,30 @@ from application.models.user_model import User
 from application import db
 
 
-
 api = Namespace('Users', Description='User operations')
 
+
 def validate_email(email):
-    match = re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]*\.*[com|org|edu]{3}$)",email)
+    match = re.match(
+        r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9.]*\.*[com|org|edu]{3}$)", email)
     if match is not None:
         return True
-    return False 
+    return False
+
 
 class UserSignUp(Resource):
     """ Enable user to sign up """
+
     def post(self):
-        
-        userData = request.get_json()
-        firstname = userData['firstname']
-        secondname = userData['secondname']
-        confirmPassword = userData['confirm_password']
-        phone = userData['phone']
-        email = userData['email']
-        password = userData["password"]
-        
+
+        user_data = request.get_json()
+        firstname = user_data['firstname']
+        secondname = user_data['secondname']
+        confirmPassword = user_data['confirm_password']
+        phone = user_data['phone']
+        email = user_data['email']
+        password = user_data["password"]
+
         """ check for empty fields """
         if email == "" or phone.strip() == ""\
                 or confirmPassword.strip() == "" or password.strip() == ""\
@@ -57,7 +60,7 @@ class UserSignUp(Resource):
             user = result.fetchone()
             """ if no user, save user data """
             if user is None:
-                userObject = User(userData)
+                userObject = User(user_data)
                 userObject.save()
                 return {'message': 'Account created.'}, 201
             return {'message': 'User exists.'}, 409
@@ -66,14 +69,14 @@ class UserSignUp(Resource):
             return {'message': 'Request not successful'}, 500
 
 
-
 class UserLogin(Resource):
     """ Enable user to login / generate jwt token """
+
     def post(self):
-    
-        userData = request.get_json()
-        email = userData['email']
-        password = userData['password']
+
+        user_data = request.get_json()
+        email = user_data['email']
+        password = user_data['password']
 
         """ check for empty fields """
         if email.strip() == "" or password.strip() == "":
@@ -97,6 +100,7 @@ class UserLogin(Resource):
             print(e)
             return {'message': 'Request not successful'}, 500
 
+
 class Logout(Resource):
     """ log out user """
     @jwt_required
@@ -105,10 +109,6 @@ class Logout(Resource):
         jti = get_raw_jwt()['jti']
         blacklist.add(jti)
         return ({'message': 'You have successfully logged out'}), 200
-
-
-
-
 
 
 api.add_resource(UserSignUp, '/auth/signup')

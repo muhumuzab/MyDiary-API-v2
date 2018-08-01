@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash
 
 from application import db
 
+
 class User():
 
     def __init__(self, user_data):
@@ -17,6 +18,6 @@ class User():
         # insert new record
         query = "INSERT INTO users (firstname,secondname,email,password,phone)\
         VALUES ('{}' , '{}', '{}', '{}', '{}')"\
-                . format(self.firstname, self.secondname ,self.email, self.password,self.phone)
+                . format(self.firstname, self.secondname, self.email, self.password, self.phone)
 
         return db.execute(query)

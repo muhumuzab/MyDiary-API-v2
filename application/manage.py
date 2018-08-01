@@ -1,6 +1,7 @@
 import os
 from psycopg2 import connect
 
+
 class Database(object):
 
     def __init__(self, app_config):
@@ -9,7 +10,8 @@ class Database(object):
         self.password = app_config.get('PASSWORD')
         self.host = app_config.get('HOST')
         print("...Establishing connection to database server...")
-        self.connection = connect(database=self.dbname,user=self.user, host=self.host, password=self.password)
+        self.connection = connect(
+            database=self.dbname, user=self.user, host=self.host, password=self.password)
         self.connection.autocommit = True
         print("Connected.")
 
@@ -67,10 +69,6 @@ class Database(object):
         cursor.execute(query)
         return cursor
 
-    
     def __del__(self):
         # close connection to the database
         self.connection.close()
-    
-
-
