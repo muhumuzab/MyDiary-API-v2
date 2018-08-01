@@ -30,3 +30,7 @@ omit =
       *tests/*
       *html/*
       *typing.py*
+      *_strptime.py                           
+      *cgi.py                                 
+      *email/generator.py                     
+      *smtplib.py  
