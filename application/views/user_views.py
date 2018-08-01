@@ -53,20 +53,19 @@ class UserSignUp(Resource):
         if not password == confirmPassword:
             return {'message': 'Passwords do not match'}, 400
 
-        try:
-            query = "select email from users where email='%s'\
+        
+        query = "select email from users where email='%s'\
              or phone='%s'" % (email, phone)
-            result = db.execute(query)
-            user = result.fetchone()
-            """ if no user, save user data """
-            if user is None:
-                userObject = User(user_data)
-                userObject.save()
-                return {'message': 'Account created.'}, 201
-            return {'message': 'User exists.'}, 409
-        except Exception as e:
-            print(e)
-            return {'message': 'Request not successful'}, 500
+        result = db.execute(query)
+        user = result.fetchone()
+        """ if no user, save user data """
+        if user is None:
+            userObject = User(user_data)
+            userObject.save()
+            return {'message': 'Account created.'}, 201
+        return {'message': 'User exists.'}, 409
+        
+            
 
 
 class UserLogin(Resource):
