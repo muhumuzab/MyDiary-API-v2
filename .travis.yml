@@ -14,7 +14,7 @@ before_script:
   - psql -c "CREATE DATABASE test_one;" -U postgres
 
 script: 
-  - nosetests 
+  - nosetests --with-coverage
 
 after_success:
   - coveralls
