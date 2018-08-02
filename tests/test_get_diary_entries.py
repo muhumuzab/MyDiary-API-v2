@@ -23,7 +23,7 @@ class GetEntries(Base):
                                 content_type='application/json',
                                 headers=self.headers)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 404)
 
 
     def test_get_single_entry(self):

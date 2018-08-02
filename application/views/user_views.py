@@ -107,7 +107,7 @@ class Logout(Resource):
     """ log out user """
     @jwt_required
     def post(self):
-        """ blacklist user's token """
+        """ Add user's token to blacklist """
         jti = get_raw_jwt()['jti']
         blacklist.add(jti)
         return ({'message': 'You have successfully logged out'}), 200

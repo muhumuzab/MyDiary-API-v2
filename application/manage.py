@@ -69,6 +69,6 @@ class Database(object):
         cursor.execute(query)
         return cursor
 
-    def __del__(self):
-        # close connection to the database
-        self.connection.close()
+    # def __del__(self):
+    #     # close connection to the database
+    #     self.connection.close()

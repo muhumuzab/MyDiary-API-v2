@@ -12,11 +12,10 @@ jwt = None
 
 def create_app(config):  # database=None
 
-    app = Flask(__name__, instance_relative_config=True, static_folder=None)
+    app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(configuration[config])
-    app.url_map.strict_slashes = False
 
-    # initialize api
+    # Initialize api
     api = Api(app=app,
               title='My Diary',
               doc='/api/v1/documentation',
@@ -29,19 +28,19 @@ def create_app(config):  # database=None
 
     from application.views import blacklist
     """
+    Returns True if the token has been blacklisted or False otherwise.
+
     This decorator sets the callback function that will 
     be called when a protected endpoint 
-    is accessed and will check if the JWT has been been revoked.
-
-    Returns True if the token has been blacklisted or False otherwise.
-    """
+    is accessed.
+    """ 
 
     @jwt.token_in_blacklist_loader
     def check_if_token_in_blacklist(decrypted_token):
         jti = decrypted_token['jti']
         return jti in blacklist
-
-    """ make db variable visible in the entire folder """
+    
+    """ make db variable visible across all methods and classes """
     global db
     db = Database(app.config)
 
