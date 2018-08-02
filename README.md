@@ -35,11 +35,20 @@ To run this project, you'll need a working installation of python 3 and pip3. Yo
 4. Install requirements - pip3 install requirements.txt
 6. Navigate to the project root and run the app.py file - type 'python run.py'
 
+# Setting up the database
 
+
+1. Open up postgres console.
+2. CREATE DATABASE 'database_name';
+3. CREATE USER 'username' WITH PASSWORD 'password';
+4. GRANT ALL PRIVILEGES ON DATABASE 'database_name' TO 'username';
+5. Go to config.py file and set USER,PASSWORD,DATABASE_NAME and HOS
 
 # Testing
 
 1. Install nosetests - pip install nosetests
 2. Navigate to the root folder of the project.
 3. Open terminal and run nosetests - All tests should be passing.
+
+
 
