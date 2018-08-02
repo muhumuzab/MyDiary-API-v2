@@ -1,5 +1,5 @@
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/muhumuzab/MyDiary-API-v2.svg?branch=develop)](https://travis-ci.org/muhumuzab/MyDiary-API-v2) [![Coverage Status](https://coveralls.io/repos/github/muhumuzab/MyDiary-API-v2/badge.svg?branch=develop)](https://coveralls.io/github/muhumuzab/MyDiary-API-v2?branch=develop)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/muhumuzab/MyDiary-API-v2.svg?branch=develop)](https://travis-ci.org/muhumuzab/MyDiary-API-v2) [![Coverage Status](https://coveralls.io/repos/github/muhumuzab/MyDiary-API-v2/badge.svg?branch=develop)](https://coveralls.io/github/muhumuzab/MyDiary-API-v2?branch=develop) <a href="https://codeclimate.com/github/muhumuzab/MyDiary-API-v2/maintainability"><img src="https://api.codeclimate.com/v1/badges/d9651f05cd8ef3995145/maintainability" /></a>
 
 # Introduction
 
