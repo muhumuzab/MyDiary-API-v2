@@ -52,5 +52,5 @@ def create_app(config):  # database=None
 
     """ Create database tables """
     db.create_all()
-    #db.drop_all()
+    # db.drop_all()
     return app

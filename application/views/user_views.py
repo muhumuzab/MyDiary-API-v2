@@ -28,7 +28,6 @@ class UserSignUp(Resource):
     def post(self):
         try:
 
-            
             user_data = request.get_json()
             firstname = user_data['firstname']
             secondname = user_data['secondname']
@@ -55,8 +54,6 @@ class UserSignUp(Resource):
             if not password == confirmPassword:
                 return {'message': 'Passwords do not match'}, 400
 
-        
-
             query = "select email from users where email='%s'\
              or phone='%s'" % (email, phone)
             result = db.execute(query)
@@ -69,15 +66,12 @@ class UserSignUp(Resource):
             return {'message': 'User exists.'}, 409
         except(KeyError):
             return {'message': 'please ensure you have entered all required fields'}
-        
-            
 
 
 class UserLogin(Resource):
     """ Enable user to login / generate jwt token """
 
     def post(self):
-
 
         try:
 
@@ -89,7 +83,6 @@ class UserLogin(Resource):
             if email.strip() == "" or password.strip() == "":
                 return {"message": "Password or email cannot be empty."}, 401
 
-       
             query = "select password from users where email='{}'"\
                     . format(email)
             result = db.execute(query)

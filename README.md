@@ -29,7 +29,6 @@
 # Installation
 To run this project, you'll need a working installation of python 3 and pip3. You also may need virtualenv.
 
-## To install the app:
 1. Clone this repository - git clone https://github.com/muhumuzab/MyDiary-API-v2/
 2. Make a virtual environment for the project - virtualenv /path/to/my-project-venv
 3. Activate the virtual environment - source /path/to/my-project-venv/bin/activate

@@ -40,7 +40,7 @@ class DiaryEntry():
 
         try:
             query = "select user_id from users where email='{}'".format(
-            get_jwt_identity())
+                get_jwt_identity())
             result = db.execute(query)
             user_id = result.fetchone()
 
@@ -206,20 +206,18 @@ class DiaryEntry():
 
     def get_all_entries(self):
 
-
         try:
-            
+
             query = "select user_id from users where email='{}'".format(
-            get_jwt_identity())
+                get_jwt_identity())
             result = db.execute(query)
             user_id = result.fetchone()
 
-           
             query = "select * from entries where owner_id='{}'"\
                 .format(user_id[0])
             result = db.execute(query)
             rows = result.fetchall()
-            
+
             """ if no diary entries found """
             if (len(rows) == 0):
                 return {'message': 'Found no diary entries'}, 404
