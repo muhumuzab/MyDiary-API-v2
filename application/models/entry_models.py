@@ -44,7 +44,7 @@ class DiaryEntry():
             result = db.execute(query)
             user_id = result.fetchone()
 
-            query = "SELECT * from entries where entry_id='{}', owner_id='{}'"\
+            query = "SELECT * from entries where entry_id='{}' and owner_id='{}'"\
                 .format(entry_id, user_id[0])
             result = db.execute(query)
             row = result.fetchone()
@@ -111,9 +111,10 @@ class DiaryEntry():
 
                 """ compare date_created with current date """
                 if datetime_obj == datetime.date.today():
+                    date_modified = datetime.date.today()
 
-                    query = "update entries set title='{}',body='{}' where entry_id='{}'"\
-                        .format(data['title'], data['body'], int(entry_id))
+                    query = "update entries set title='{}',body='{}', date_modified='{}' where entry_id='{}'"\
+                        .format(data['title'], data['body'], date_modified, int(entry_id))
                     db.execute(query)
                     return {'message': 'diary entry updated succesfully'}, 200
 
