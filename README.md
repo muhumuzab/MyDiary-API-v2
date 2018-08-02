@@ -42,7 +42,7 @@ To run this project, you'll need a working installation of python 3 and pip3. Yo
 2. CREATE DATABASE 'database_name';
 3. CREATE USER 'username' WITH PASSWORD 'password';
 4. GRANT ALL PRIVILEGES ON DATABASE 'database_name' TO 'username';
-5. Go to config.py file and set USER,PASSWORD,DATABASE_NAME and HOS
+5. Go to config.py file and set USER,PASSWORD,DATABASE_NAME and HOST
 
 # Testing
 
