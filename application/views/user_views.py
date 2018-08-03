@@ -63,7 +63,7 @@ class UserSignUp(Resource):
                 userObject = User(user_data)
                 userObject.save()
                 return {'message': 'Account created.'}, 201
-            return {'message': 'User exists.'}, 409
+            return {'message': 'User exists.'}, 403
         except(KeyError):
             return {'message': 'please ensure you have entered all required fields'}
 

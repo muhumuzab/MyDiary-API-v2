@@ -33,7 +33,7 @@ class Entries(Base):
                                 data=json.dumps(self.empty_diary_entry),
                                 content_type='application/json',
                                 headers=self.headers)
-        self.assertEqual(response.status_code, 406)
+        self.assertEqual(response.status_code, 403)
         response_data = json.loads(response.get_data().decode('utf-8'))
         self.assertEqual(response_data['message'],'Missing title or body fields.')
 
@@ -43,7 +43,7 @@ class Entries(Base):
                                 data=json.dumps(self.diary_entry_without_title),
                                 content_type='application/json',
                                 headers=self.headers)
-        self.assertEqual(response.status_code, 406)
+        self.assertEqual(response.status_code, 403)
         response_data = json.loads(response.get_data().decode('utf-8'))
         self.assertEqual(response_data['message'],'Missing title or body fields.')
 
@@ -53,7 +53,7 @@ class Entries(Base):
                                 data=json.dumps(self.diary_entry_without_body),
                                 content_type='application/json',
                                 headers=self.headers)
-        self.assertEqual(response.status_code, 406)
+        self.assertEqual(response.status_code, 403)
         response_data = json.loads(response.get_data().decode('utf-8'))
         self.assertEqual(response_data['message'],'Missing title or body fields.')
     '''

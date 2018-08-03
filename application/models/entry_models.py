@@ -91,13 +91,13 @@ class DiaryEntry():
             result = db.execute(query)
             rows = result.fetchall()
             if(len(rows) > 0):
-                return {'message': 'diary entry with such title already exists'}, 406
+                return {'message': 'diary entry with such title already exists'}, 403
 
             """ validate for alphanumeric characters """
             '''
             if not re.match('^[a-zA-Z0-9_]+$',title):
                 return {'message':
-                        'title can only be letters or numbers.'}, 406
+                        'title can only be letters or numbers.'}, 403
             '''
 
             """ validate for empty fields """
@@ -119,10 +119,10 @@ class DiaryEntry():
                     return {'message': 'diary entry updated succesfully'}, 200
 
                 else:
-                    return {'message': 'diary entry can only be updated on the day it was created'}, 406
+                    return {'message': 'diary entry can only be updated on the day it was created'}, 403
 
             else:
-                return {'message': 'Missing title or body fields.'}, 406
+                return {'message': 'Missing title or body fields.'}, 403
 
             query = "select * from entries where entry_id='{}'".format(
                 entry_id)
@@ -131,7 +131,7 @@ class DiaryEntry():
 
             return {'id': entry[0], 'title': entry[2], 'body': entry[3], 'date_created': entry[4], 'date_modified': entry[5]}
         except (KeyError):
-            return {'message': 'missing title or body keys'}, 406
+            return {'message': 'missing title or body keys'}, 403
 
     def delete_diary_entry(self, entry_id):
         """ get id of logged in user """
@@ -174,7 +174,7 @@ class DiaryEntry():
             result = db.execute(query)
             rows = result.fetchall()
             if(len(rows) > 0):
-                return {'message': 'diary entry with such title already exists'}, 406
+                return {'message': 'diary entry with such title already exists'}, 403
 
             """ validate for empty fields """
             if title and body:
@@ -189,18 +189,18 @@ class DiaryEntry():
                 return {'message':
                         'diary entry added successfully.'}, 201
             else:
-                return {'message': 'Missing title or body fields.'}, 406
+                return {'message': 'Missing title or body fields.'}, 403
 
             """ validate for alphanumeric characters """
 
             if not re.match('^[a-zA-Z0-9_]+$', title):
                 return {'message':
-                        'title can only be letters or numbers.'}, 406
+                        'title can only be letters or numbers.'}, 403
 
             """ validate for missing keys """
 
         except (KeyError):
-            return {'message': 'missing title or body keys'}, 406
+            return {'message': 'missing title or body keys'}, 403
 
     """ get all diary entries """
 
