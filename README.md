@@ -50,5 +50,8 @@ To run this project, you'll need a working installation of python 3 and pip3. Yo
 2. Navigate to the root folder of the project.
 3. Open terminal and run nosetests - All tests should be passing.
 
+# Documentation
+
+- Visit https://mydiary8.docs.apiary.io/ for the documentation of the API
 
 
