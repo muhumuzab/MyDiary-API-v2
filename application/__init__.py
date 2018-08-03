@@ -10,7 +10,7 @@ db = None
 jwt = None
 
 
-def create_app(config):  # database=None
+def create_app(config):  
 
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(configuration[config])

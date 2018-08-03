@@ -54,4 +54,8 @@ To run this project, you'll need a working installation of python 3 and pip3. Yo
 
 - Visit https://mydiary8.docs.apiary.io/ for the documentation of the API
 
+# Heroku
+
+- The app is deployed at the following url - https://diary-api-v2.herokuapp.com/
+
 
