@@ -1,5 +1,5 @@
 from application import create_app
-#app = create_app('development')'production'
+# app = create_app('development')'production'
 app = create_app('production')
 
 if __name__ == '__main__':

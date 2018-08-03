@@ -33,13 +33,13 @@ def create_app(config):  # database=None
     This decorator sets the callback function that will 
     be called when a protected endpoint 
     is accessed.
-    """ 
+    """
 
     @jwt.token_in_blacklist_loader
     def check_if_token_in_blacklist(decrypted_token):
         jti = decrypted_token['jti']
         return jti in blacklist
-    
+
     """ make db variable visible across all methods and classes """
     global db
     db = Database(app.config)
