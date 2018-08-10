@@ -1,5 +1,5 @@
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/muhumuzab/MyDiary-API-v2.svg?branch=develop)](https://travis-ci.org/muhumuzab/MyDiary-API-v2) [![Coverage Status](https://coveralls.io/repos/github/muhumuzab/MyDiary-API-v2/badge.svg?branch=develop)](https://coveralls.io/github/muhumuzab/MyDiary-API-v2?branch=develop) <a href="https://codeclimate.com/github/muhumuzab/MyDiary-API-v2/maintainability"><img src="https://api.codeclimate.com/v1/badges/d9651f05cd8ef3995145/maintainability" /></a>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/zaabu/MyDiary-API-v2.svg?branch=develop)](https://travis-ci.org/muhumuzab/MyDiary-API-v2) [![Coverage Status](https://coveralls.io/repos/github/zaabu/MyDiary-API-v2/badge.svg?branch=develop)](https://coveralls.io/github/zaabu/MyDiary-API-v2?branch=develop) <a href="https://codeclimate.com/github/zaabu/MyDiary-API-v2/maintainability"><img src="https://api.codeclimate.com/v1/badges/d9651f05cd8ef3995145/maintainability" /></a>
 
 # Introduction
 
@@ -29,7 +29,7 @@
 # Installation
 To run this project, you'll need a working installation of python 3 and pip3. You also may need virtualenv.
 
-1. Clone this repository - git clone https://github.com/muhumuzab/MyDiary-API-v2/
+1. Clone this repository - git clone https://github.com/zaabu/MyDiary-API-v2/
 2. Make a virtual environment for the project - virtualenv /path/to/my-project-venv
 3. Activate the virtual environment - source /path/to/my-project-venv/bin/activate
 4. Install requirements - pip3 install requirements.txt

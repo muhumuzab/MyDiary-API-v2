@@ -42,6 +42,9 @@ class UserSignUp(Resource):
                     or firstname.strip() == "" or secondname.strip() == "":
                 return {"message": "Please ensure all fields are non-empty."}, 400
 
+            if len(firstname) < 3 or len(secondname) < 3:
+                return {'message': 'names cannot be less than 3 characters'}, 400 
+
             """ check if password id less than 6 characters """
             if len(password) < 6:
                 return {'message': 'password should be 6 characters or more.'}, 400
