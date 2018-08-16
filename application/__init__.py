@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restplus import Api
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 from application.config import configuration
 from application.manage import Database
@@ -13,6 +14,7 @@ jwt = None
 def create_app(config):  
 
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
     app.config.from_object(configuration[config])
 
     # Initialize api
