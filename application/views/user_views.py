@@ -105,6 +105,18 @@ class UserLogin(Resource):
 
             return {'message': 'Please ensure you have provided both email and password'}, 401
 
+class Profile(Resource):
+    @jwt_required 
+    def get(self):
+        """ get user details """
+        email = get_jwt_identity()
+        query = "select firstname,secondname,phone \
+            from users where email='{}'".format(email)
+        result = db.execute(query)
+        users = result.fetchone()
+        return {'firstname': users[0],'secondname':users[1],\
+        'phone number': users[2], 'email': email},200
+
 
 class Logout(Resource):
     """ log out user """
@@ -118,4 +130,5 @@ class Logout(Resource):
 
 api.add_resource(UserSignUp, '/auth/signup')
 api.add_resource(UserLogin, '/auth/login')
+api.add_resource(Profile, '/auth/profile')
 api.add_resource(Logout, '/auth/logout')
