@@ -29,7 +29,7 @@ class Database(object):
             'CREATE TABLE IF NOT EXISTS entries (entry_id serial PRIMARY KEY, \
                        owner_id serial, \
                        title varchar(255), \
-                       body varchar(255), \
+                       body varchar(5000), \
                        date_created varchar(255), \
                        date_modified varchar(255), \
                        FOREIGN KEY (owner_id) REFERENCES users(user_id) on delete cascade)'
